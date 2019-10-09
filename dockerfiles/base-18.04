@@ -7,4 +7,4 @@ RUN apt install --yes software-properties-common
 RUN apt update --quiet
 RUN apt install --quiet --yes ccache cloc cmake doxygen git libboost-dev ninja-build python3 python3-pip
 RUN pip3 install --upgrade pip
-RUN pip3 install conan
+RUN pip3 install conan pyaml
