@@ -85,6 +85,18 @@ jobs:
             echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
             ./build.py dockerfiles/1/clang-8.0
 
+  "clang_9_0":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-9.0
+
   "gcc_5":
     docker:
       - image: johnmcfarlane/cnl_ci:docker-build
@@ -166,6 +178,9 @@ workflows:
           requires:
             - base_19_10
       - clang_8_0:
+          requires:
+            - base_19_10
+      - clang_9_0:
           requires:
             - base_19_10
 
