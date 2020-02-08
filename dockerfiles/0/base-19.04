@@ -1,10 +1,10 @@
 FROM ubuntu:19.04
 
 # install system packages
-RUN apt dist-upgrade --assume-yes
+RUN apt-get dist-upgrade --assume-yes
 RUN apt-get update --quiet
-RUN apt install --yes software-properties-common
-RUN apt update --quiet
-RUN apt install --quiet --yes ccache clang-tidy cloc cmake doxygen git libboost-dev ninja-build python3 python3-pip
+RUN apt-get install --yes software-properties-common
+RUN apt-get update --quiet
+RUN apt-get install --quiet --yes ccache clang-tidy cloc cmake doxygen git libboost-dev ninja-build python3 python3-pip
 RUN pip3 install --upgrade pip
 RUN pip3 install conan pyaml
