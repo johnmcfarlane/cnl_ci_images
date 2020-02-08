@@ -1,4 +1,4 @@
-FROM johnmcfarlane/cnl_ci:base-18.04
+FROM johnmcfarlane/cnl_ci:base-19.10
 RUN apt-get install --quiet --yes clang-7 \
   && update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-7 10 \
   && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
