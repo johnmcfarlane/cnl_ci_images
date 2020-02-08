@@ -1,0 +1,61 @@
+FROM johnmcfarlane/cnl_ci:clang-9.0
+RUN git clone \
+    --branch release/9.x \
+    --depth 1 \
+    --single-branch \
+    https://github.com/llvm/llvm-project.git
+
+WORKDIR /root/.ccache
+
+WORKDIR /build
+RUN mkdir -p /build \
+    && cd /build \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+        -DLLVM_ENABLE_PROJECTS="clang" \ 
+        -G Ninja
+RUN cmake --build /build
+RUN ccache --show-stats
+
+WORKDIR build-lib
+RUN mkdir -p /build-lib \
+    && cd /build-lib \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER=/build/bin/clang \
+        -DCMAKE_CXX_COMPILER=/build/bin/clang++ \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+        -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \ 
+        -DLLVM_USE_SANITIZER=MemoryWithOrigins \
+        -G Ninja
+RUN cmake --build . \
+    && ccache --show-stats
+
+WORKDIR build-msan
+ENV CLANG_BUILD /build
+ENV LIBCXX_BUILD /build-lib
+ENV MSAN_LINK_FLAGS "-lc++abi -Wl,--rpath=$LIBCXX_BUILD/lib -L$LIBCXX_BUILD/lib"
+ENV MSAN_FLAGS "$MSAN_LINK_FLAGS -nostdinc++ \
+    -isystem $LIBCXX_BUILD/include \
+    -isystem $LIBCXX_BUILD/include/c++/v1  \
+    -fsanitize=memory \
+    -fsanitize-memory-track-origins \
+    -w"
+RUN mkdir -p /build-msan \
+    && cd /build-msan \
+    && cmake \
+        ../llvm \
+        -DCMAKE_C_COMPILER=$CLANG_BUILD/bin/clang \
+        -DCMAKE_CXX_COMPILER=$CLANG_BUILD/bin/clang++ \
+        -DCMAKE_C_FLAGS="$MSAN_FLAGS" \
+        -DCMAKE_CXX_FLAGS="$MSAN_FLAGS" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_USE_SANITIZER=MemoryWithOrigins \
+        -DLLVM_ENABLE_LIBCXX=ON \
+        -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;libcxx;libcxxabi" \ 
+        -DCMAKE_EXE_LINKER_FLAGS=$MSAN_LINK_FLAGS \
+        -GNinja \
+RUN cmake --build . --target install
