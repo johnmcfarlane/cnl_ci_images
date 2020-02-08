@@ -6,5 +6,5 @@ integration. You are probably here by accident but welcome anyway!
 To build everything:
 
 ```sh
-./build.py dockerfiles/*
+./build.py dockerfiles/*/*
 ```

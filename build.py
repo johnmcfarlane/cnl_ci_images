@@ -18,7 +18,7 @@ if __name__ == "__main__":
         exit(1)
 
     # Base images are dependency of the other images, so build them first.
-    filenames = sorted(argv[1:], key=lambda arg: 0 if arg.startswith("base") else 1)
+    filenames = sorted(argv[1:])
 
     # From full path, extract salient strings
     plan = [(filename, dirname(filename), "johnmcfarlane/cnl_ci:{}".format(basename(filename))) for filename in
