@@ -1,0 +1,201 @@
+version: 2.1
+
+jobs:
+  "base_18_04":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/0/base-18.04
+
+  "base_19_10":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/0/base-19.10
+
+  "clang_4":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-4
+
+  "clang_5":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-5
+
+  "clang_6":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-6
+
+  "clang_7":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-7
+
+  "clang_8":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-8
+
+  "clang_9":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/clang-9
+
+  "gcc_5":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/gcc-5
+
+  "gcc_6":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/gcc-6
+
+  "gcc_7":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/gcc-7
+
+  "gcc_8":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/gcc-8
+
+  "gcc_9":
+    docker:
+      - image: johnmcfarlane/cnl_ci:docker-build
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/public dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/1/gcc-9
+
+workflows:
+  version: 2
+  build-images:
+    jobs:
+      - base_18_04
+
+      - base_19_10
+
+      - clang_4:
+          requires:
+            - base_18_04
+      - clang_5:
+          requires:
+            - base_18_04
+      - clang_6:
+          requires:
+            - base_19_10
+      - clang_7:
+          requires:
+            - base_19_10
+      - clang_8:
+          requires:
+            - base_19_10
+      - clang_9:
+          requires:
+            - base_19_10
+
+      - gcc_5:
+          requires:
+            - base_18_04
+      - gcc_6:
+          requires:
+            - base_18_04
+      - gcc_7:
+          requires:
+            - base_19_10
+      - gcc_8:
+          requires:
+            - base_19_10
+      - gcc_9:
+          requires:
+            - base_19_10

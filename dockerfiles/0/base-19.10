@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.10
 
 # install system packages
 RUN apt-get dist-upgrade --assume-yes
