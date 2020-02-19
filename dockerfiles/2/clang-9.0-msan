@@ -1,39 +1,109 @@
-FROM johnmcfarlane/cnl_ci:clang-9.0
+FROM ubuntu:19.10
+
+RUN apt-get dist-upgrade --assume-yes
+RUN apt-get update --quiet
+RUN apt-get install --quiet --yes g++ cmake git ninja-build python
+
 RUN git clone \
     --branch release/9.x \
     --depth 1 \
     --single-branch \
     https://github.com/llvm/llvm-project.git
 
-WORKDIR /root/.ccache
+#ENV CC /usr/bin/clang-9
+#ENV CXX /usr/bin/clang++-9
 
-WORKDIR /build
+
+
+# Build Clang normally
 RUN mkdir -p /build \
     && cd /build \
     && cmake \
         /llvm-project/llvm/ \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
         -DLLVM_ENABLE_PROJECTS="clang" \ 
         -G Ninja
-RUN cmake --build /build
-RUN ccache --show-stats
+RUN cmake --build /build --target install
 
-WORKDIR build-lib
+RUN mkdir -p /build \
+    && cd /build \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="compiler-rt" \ 
+        -G Ninja
+RUN cmake --build /build --target install
+
+RUN mkdir -p /build \
+    && cd /build \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="libcxx" \ 
+        -G Ninja
+RUN cmake --build /build --target install
+
+RUN mkdir -p /build \
+    && cd /build \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="libcxxabi" \ 
+        -G Ninja
+RUN cmake --build /build --target install
+
+RUN mkdir -p /build \
+    && cd /build \
+    && cmake \
+        /llvm-project/llvm/ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="libunwind" \ 
+        -G Ninja
+RUN cmake --build /build --target install
+
+
+
+
+
+
+# Set up newly-built clang on system
+#RUN apt-get --quiet --yes remove libc++-dev libc++abi-dev
+
+ENV CC /usr/local/bin/clang
+ENV CXX /usr/local/bin/clang++
+#ENV LD_LIBRARY_PATH /usr/local/lib
+ENV LD_LIBRARY_PATH /usr/lib/gcc/x86_64-linux-gnu/9
+
+RUN find /usr/ -name "clang++*"
+RUN find /usr/ -name "libc++*"
+RUN find /usr/ -name "libatomic*"
+
+# Build library with MSan
+WORKDIR /build-lib
 RUN mkdir -p /build-lib \
     && cd /build-lib \
     && cmake \
         /llvm-project/llvm/ \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_C_COMPILER=/build/bin/clang \
-        -DCMAKE_CXX_COMPILER=/build/bin/clang++ \
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+        -DLLVM_ENABLE_LIBCXX=ON \
         -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \ 
         -DLLVM_USE_SANITIZER=MemoryWithOrigins \
         -G Ninja
-RUN cmake --build . \
-    && ccache --show-stats
+#        -DCMAKE_CXX_FLAGS="-latomic" \
+#    -DCMAKE_CXX_FLAGS="-stdlib=libc++ -Wl,-L/usr/lib/gcc" \
+# -DLLVM_USE_LINKER=lld \
+# 
+# -DLLVM_ENABLE_PROJECTS=libunwind \
+# -DLIBCXX_CXX_ABI=libcxxabi \
+# -DLIBCXX_USE_COMPILER_RT=YES \
+# -DLIBCXXABI_USE_COMPILER_RT=YES \
 
+
+RUN cmake --build /build-lib --target install
+
+RUN kajhflweuhlk
+
+# 15
 WORKDIR build-msan
 ENV CLANG_BUILD /build
 ENV LIBCXX_BUILD /build-lib
