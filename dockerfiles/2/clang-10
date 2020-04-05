@@ -1,0 +1,41 @@
+FROM johnmcfarlane/cnl_ci:base-19.10
+
+RUN apt-get install --quiet --yes wget
+
+RUN wget \
+    --quiet \
+    https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-project-10.0.0.tar.xz \
+  && tar -xf llvm-project-10.0.0.tar.xz \
+  && rm llvm-project-10.0.0.tar.xz \
+  && mkdir /build \
+  && cd /build \
+  && cmake \
+       -GNinja \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi;libunwind" \
+       /llvm-project-10.0.0/llvm \
+  && cmake --build . --target install \
+  && rm -rf /build /llvm-project-10.0.0
+
+RUN update-alternatives \
+  --install \
+    /usr/bin/clang++ \
+    clang++ \
+    /usr/local/bin/clang-10 \
+    10
+RUN update-alternatives \
+  --install \
+    /usr/bin/c++ \
+    c++ \
+    /usr/bin/clang++ \
+    10
+RUN update-alternatives \
+  --set \
+    c++ /usr/bin/clang++
+
+ENV CXX /usr/bin/clang++
+
+RUN conan profile new default --detect
+RUN conan profile update settings.compiler=clang default
+RUN conan profile update settings.compiler.version=10 default
+RUN conan profile update settings.compiler.libcxx=libstdc++11 default
