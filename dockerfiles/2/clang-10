@@ -12,7 +12,7 @@ RUN wget \
   && cmake \
        -GNinja \
        -DCMAKE_BUILD_TYPE=Release \
-       -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi;libunwind" \
+       -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind" \
        /llvm-project-10.0.0/llvm \
   && cmake --build . --target install \
   && rm -rf /build /llvm-project-10.0.0
@@ -32,6 +32,13 @@ RUN update-alternatives \
 RUN update-alternatives \
   --set \
     c++ /usr/bin/clang++
+
+RUN update-alternatives \
+  --install \
+    /usr/bin/clang-tidy \
+    clang-tidy \
+    /usr/local/bin/clang-tidy \
+    10
 
 ENV CXX /usr/bin/clang++
 

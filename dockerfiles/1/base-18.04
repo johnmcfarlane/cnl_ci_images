@@ -1,10 +1,19 @@
 FROM ubuntu:18.04
 
 # install system packages
-RUN apt-get dist-upgrade --assume-yes
-RUN apt-get update --quiet
-RUN apt-get install --yes software-properties-common
-RUN apt-get update --quiet
-RUN apt-get install --quiet --yes ccache clang-tidy cloc cmake doxygen git libboost-dev ninja-build python3 python3-pip
-RUN pip3 install --upgrade pip
-RUN pip3 install conan pyaml
+RUN apt-get update --quiet \
+  && apt-get install --yes software-properties-common \
+  && apt-get update --quiet \
+  && apt-get install --quiet --yes \
+    ccache \
+    cloc \
+    cmake \
+    doxygen \
+    git \
+    libboost-dev \
+    ninja-build \
+    python3 \
+    python3-pip \
+  && apt-get --quiet --yes autoremove \
+  && pip3 install --upgrade pip \
+  && pip3 install conan pyaml
