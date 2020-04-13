@@ -1,6 +1,18 @@
 version: 2.1
 
 jobs:
+  "docker-build":
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build/publish dockerfile
+          command: |
+            echo $DOCKER_TOKEN | docker login --username $DOCKER_USER --password-stdin &&
+            ./build.py dockerfiles/0/docker-build
+
   "base_18_04":
     docker:
       - image: johnmcfarlane/cnl_ci:docker-build
@@ -161,9 +173,15 @@ workflows:
   version: 2
   build-images:
     jobs:
-      - base_18_04
+      - docker-build
 
-      - base_19_10
+      - base_18_04:
+          requires:
+            - docker-build
+
+      - base_19_10:
+          requires:
+            - docker-build
 
       - clang_4:
           requires:
