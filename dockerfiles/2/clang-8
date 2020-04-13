@@ -1,7 +1,15 @@
 FROM johnmcfarlane/cnl_ci:base-19.10
-RUN apt-get install --quiet --yes clang-8 \
+RUN apt-get install --quiet --yes clang-8 clang-tidy-8 \
   && update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-8 10 \
   && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
+
+RUN update-alternatives \
+  --install \
+    /usr/bin/clang-tidy \
+    clang-tidy \
+    /usr/bin/clang-tidy-8 \
+    10
+
 ENV CC /usr/bin/clang-8
 ENV CXX /usr/bin/clang++-8
 RUN conan profile new default --detect
