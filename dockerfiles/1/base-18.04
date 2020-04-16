@@ -14,6 +14,7 @@ RUN apt-get update --quiet \
     ninja-build \
     python3 \
     python3-pip \
+    shellcheck \
   && apt-get --quiet --yes autoremove \
   && pip3 install --upgrade pip \
   && pip3 install conan pyaml
