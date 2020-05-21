@@ -15,6 +15,7 @@ RUN apt-get update --quiet \
     python3-pip \
     shellcheck \
     software-properties-common \
+  && apt-get remove --yes g++ gcc \
   && apt-get --quiet --yes autoremove \
   && pip3 install --upgrade pip \
   && pip3 install conan pyaml
