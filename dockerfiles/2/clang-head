@@ -1,0 +1,20 @@
+FROM johnmcfarlane/cnl_ci:base-20.04
+RUN apt-get install --yes clang-10 libz3-4 \
+  && git clone https://github.com/llvm/llvm-project.git \
+  && mkdir build \
+  && cd build \
+  && CXX=/usr/bin/clang++-10 CC=/usr/bin/clang-10 cmake \
+    -GNinja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi;libunwind" \
+    ../llvm-project/llvm \
+  && ninja install \
+  && cd .. && rm -rf llvm-project build \
+  && apt-get remove --yes clang-10 \
+  && apt-get --quiet --yes autoremove
+RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/local/bin/clang++ 10 \
+  && update-alternatives --install /usr/bin/clang clang /usr/local/bin/clang 10 \
+  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 10 \
+  && update-alternatives --install /usr/bin/cc cc /usr/bin/clang 10 \
+  && conan profile new default --detect \
+  && conan profile update settings.compiler.libcxx=libc++ default
