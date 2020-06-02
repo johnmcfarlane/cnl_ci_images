@@ -1,5 +1,5 @@
 FROM johnmcfarlane/cnl_ci:base-18.04
-RUN apt-get install --quiet --yes g++-5 \
+RUN apt-get install --no-install-recommends --quiet --yes g++-5 \
   && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10 \
   && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
 ENV CC /usr/bin/gcc-5

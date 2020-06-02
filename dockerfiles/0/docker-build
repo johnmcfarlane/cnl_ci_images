@@ -2,4 +2,4 @@ FROM ubuntu:18.04
 
 # install system packages
 RUN apt-get update --quiet
-RUN apt-get install --quiet --yes docker.io
+RUN apt-get install --no-install-recommends --quiet --yes docker.io python3
