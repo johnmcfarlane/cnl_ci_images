@@ -23,6 +23,8 @@ if __name__ == "__main__":
     # From full path, extract salient strings
     plan = [(filename, dirname(filename), "johnmcfarlane/cnl_ci:{}".format(basename(filename))) for filename in
             filenames]
+    
+    print('\n'.join([image for filename, dir, image in plan]))
 
     for step in plan:
         print('=' * 70)
