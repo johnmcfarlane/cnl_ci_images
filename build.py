@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from multiprocessing import Pool
 from os.path import basename, dirname
 from subprocess import check_call
 from sys import argv
@@ -32,5 +33,5 @@ if __name__ == "__main__":
     
     print('\n'.join([image for filename, dir, image in plan]))
 
-    for step in plan:
-        build_image(step);
+    with Pool() as p:
+        p.map(build_image, plan)
