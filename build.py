@@ -12,6 +12,12 @@ def build(filename, path, tag):
     check_call(["docker", "push", tag])
 
 
+def build_image(step):
+    print('=' * 70)
+    print("{} -> {}".format(step[0], step[2]))
+    build(*step)
+
+
 if __name__ == "__main__":
     if len(argv) <= 1:
         print("Please provide dockerfile(s).")
@@ -27,6 +33,4 @@ if __name__ == "__main__":
     print('\n'.join([image for filename, dir, image in plan]))
 
     for step in plan:
-        print('=' * 70)
-        print("{} -> {}".format(step[0], step[2]))
-        build(*step)
+        build_image(step);
