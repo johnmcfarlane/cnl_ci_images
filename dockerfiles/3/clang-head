@@ -1,5 +1,5 @@
 FROM johnmcfarlane/cnl_ci:base-20.04
-RUN apt-get install --yes clang-10 libz3-4 \
+RUN apt-get install --no-install-recommends --yes clang-10 libz3-4 \
   && git clone https://github.com/llvm/llvm-project.git \
   && mkdir build \
   && cd build \
