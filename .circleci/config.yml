@@ -247,3 +247,7 @@ workflows:
       - gcc_10:
           requires:
             - base_20_04
+
+      - clang_10-libstdcpp:
+          requires:
+            - clang_10
