@@ -16,6 +16,7 @@ RUN apt-get update --quiet \
     python3-pip \
     shellcheck \
     software-properties-common \
+    tree \
     wget \
   && pip3 install --upgrade pip \
   && pip3 install conan pyaml
