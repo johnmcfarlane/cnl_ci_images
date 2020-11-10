@@ -1,0 +1,3 @@
+FROM johnmcfarlane/cnl_ci:clang-head
+RUN apt-get install --no-install-recommends --yes libstdc++-10-dev
+RUN conan profile update settings.compiler.libcxx=libstdc++11 default

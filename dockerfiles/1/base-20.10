@@ -1,0 +1,22 @@
+FROM ubuntu:20.10
+
+# install system packages
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes \
+    ccache \
+    cloc \
+    cmake \
+    doxygen \
+    git \
+    libboost-dev \
+    make \
+    ninja-build \
+    python3 \
+    python3-pip \
+    shellcheck \
+    software-properties-common \
+    tree \
+    wget \
+  && pip3 install --upgrade pip \
+  && pip3 install conan pyaml

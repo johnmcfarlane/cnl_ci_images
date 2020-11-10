@@ -1,0 +1,11 @@
+FROM johnmcfarlane/cnl_ci:base-20.10
+RUN apt-get install --no-install-recommends --quiet --yes clang-11 clang-tidy-11 libc++-11-dev libc++abi-11-dev
+RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 1
+RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 1
+RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang 1
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 1
+RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-11 1
+ENV CC /usr/bin/clang-11
+ENV CXX /usr/bin/clang++-11
+RUN conan profile new default --detect
+RUN conan profile update settings.compiler.libcxx=libc++ default
