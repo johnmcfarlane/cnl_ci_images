@@ -4,9 +4,5 @@ RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 1
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 1
 RUN update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 1
-
 ENV CC /usr/bin/gcc-10
 ENV CXX /usr/bin/g++-10
-
-RUN conan profile new default --detect
-RUN conan profile update settings.compiler.libcxx=libstdc++11 default

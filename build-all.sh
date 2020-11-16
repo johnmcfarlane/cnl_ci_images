@@ -6,7 +6,7 @@ set -euo pipefail
 ./build.py dockerfiles/0/* dockerfiles/1/*
 
 ./build.py dockerfiles/2/*
-
 ./build.py dockerfiles/3/*
 ./build.py dockerfiles/4/*
 ./build.py dockerfiles/5/*
+./build.py dockerfiles/6/*

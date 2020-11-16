@@ -1,6 +1,6 @@
 FROM johnmcfarlane/cnl_ci:base-20.04
 RUN apt-get install --no-install-recommends --yes binutils clang-10 libz3-4
-RUN git clone https://github.com/llvm/llvm-project.git
+RUN git clone --branch=master --depth=1 https://github.com/llvm/llvm-project.git
 RUN mkdir build \
   && cd build \
   && CXX=/usr/bin/clang++-10 CC=/usr/bin/clang-10 cmake \
@@ -16,5 +16,5 @@ RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/local/bin/clang+
 RUN update-alternatives --install /usr/bin/clang clang /usr/local/bin/clang 1
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 1
 RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang 1
-RUN conan profile new default --detect
-RUN conan profile update settings.compiler.libcxx=libc++ default
+ENV CC /usr/bin/clang
+ENV CXX /usr/bin/clang++
