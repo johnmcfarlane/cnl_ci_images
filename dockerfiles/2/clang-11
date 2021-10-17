@@ -1,4 +1,4 @@
-FROM johnmcfarlane/cnl_ci:base-20.10
+FROM johnmcfarlane/cnl_ci:base-21.04
 RUN apt-get install --no-install-recommends --quiet --yes clang-11 clang-format-11 clang-tidy-11
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 1
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 1
