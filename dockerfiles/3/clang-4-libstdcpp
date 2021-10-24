@@ -1,2 +1,4 @@
 FROM johnmcfarlane/cnl_ci:clang-4
-RUN apt-get install --no-install-recommends --yes libstdc++-8-dev
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --yes libstdc++-8-dev \
+  && rm -rf /var/lib/apt/lists/*

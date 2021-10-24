@@ -1,5 +1,7 @@
 FROM johnmcfarlane/cnl_ci:base-20.04
-RUN apt-get install --no-install-recommends --quiet --yes clang-10 clang-tidy-10
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes clang-10 clang-tidy-10 \
+  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 1
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 1
 RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-10 1

@@ -1,5 +1,7 @@
 FROM johnmcfarlane/cnl_ci:base-20.04
-RUN apt-get install --no-install-recommends --quiet --yes clang-6.0 clang-tidy-6.0
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes clang-6.0 clang-tidy-6.0 \
+  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 1
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 1
 RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-6.0 1

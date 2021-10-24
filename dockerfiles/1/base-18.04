@@ -18,5 +18,6 @@ RUN apt-get update --quiet \
     shellcheck \
     software-properties-common \
     wget \
-  && pip3 install --upgrade pip \
-  && pip3 install conan pyaml
+  && rm -rf /var/lib/apt/lists/*
+RUN pip3 install --no-cache-dir --upgrade pip \
+  && pip3 install --no-cache-dir conan pyaml

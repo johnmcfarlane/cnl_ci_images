@@ -1,5 +1,7 @@
 FROM johnmcfarlane/cnl_ci:base-21.04
-RUN apt-get install --no-install-recommends --quiet --yes clang-11 clang-format-11 clang-tidy-11
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes clang-11 clang-format-11 clang-tidy-11 \
+  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 1
 RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 1
 RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-11 1

@@ -1,25 +1,22 @@
-FROM johnmcfarlane/cnl_ci:base-20.04
+FROM johnmcfarlane/cnl_ci:gcc-10
 
-RUN apt-get install --no-install-recommends --quiet --yes binutils flex g++-10 gcc-multilib gnulib libgmp-dev libmpc3 libmpc-dev libmpfr-dev
-RUN git clone --depth 1 git://gcc.gnu.org/git/gcc.git
-ENV CC /usr/bin/gcc-10
-ENV CXX /usr/bin/g++-10
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes binutils flex gcc-multilib gnulib libgmp-dev libmpc3 libmpc-dev libmpfr-dev \
+  && git clone --depth 1 git://gcc.gnu.org/git/gcc.git \
+  && mkdir /build \
+  && cd /build \
+  && /gcc/configure --disable-multilib --enable-languages=c,c++,lto \
+  && make --jobs $(nproc) \
+  && make install \
+  && apt-get remove --quiet --yes flex g++-7 g++-10 libgmp-dev libmpfr-dev libmpc-dev libstdc++-7-dev libstdc++-10-dev \
+  && apt-get install --no-install-recommends --quiet --yes binutils gcc-multilib libmpc3 \
+  && apt-get --quiet --yes autoremove \
+  && rm -rf /gcc /build /var/lib/apt/lists/*
 
-RUN mkdir /build
-WORKDIR /build
-RUN /gcc/configure --disable-multilib --enable-languages=c,c++,lto
-RUN make --jobs $(nproc)
-RUN make install
-
-RUN rm -rf /gcc /build
-RUN apt-get remove --quiet --yes flex g++-7 g++-10 libgmp-dev libmpfr-dev libmpc-dev libstdc++-7-dev libstdc++-10-dev
-RUN apt-get install --no-install-recommends --quiet --yes binutils gcc-multilib libmpc3
-RUN apt-get --quiet --yes autoremove
-
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/local/bin/g++ 10
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/local/bin/gcc 10
-RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
-RUN update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/local/bin/g++ 10 \
+  && update-alternatives --install /usr/bin/gcc gcc /usr/local/bin/gcc 10 \
+  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10 \
+  && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
 ENV CC /usr/bin/gcc
 ENV CXX /usr/bin/g++
 ENV LD_LIBRARY_PATH=/usr/local/lib64/:$LD_LIBRARY_PATH
