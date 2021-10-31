@@ -1,4 +1,4 @@
-FROM johnmcfarlane/cnl_ci:base-21.04
+FROM johnmcfarlane/cnl_ci:base-21.10
 RUN apt-get update --quiet \
   && apt-get install --no-install-recommends --yes binutils clang-12 libz3-4 \
   && git clone --branch=main --depth=1 https://github.com/llvm/llvm-project.git \
