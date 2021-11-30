@@ -12,6 +12,7 @@ RUN apt-get update --quiet \
   && ninja install \
   && cd .. \
   && apt-get remove --yes clang-12 \
+  && apt-get install --no-install-recommends --yes build-essential \
   && apt-get --quiet --yes autoremove \
   && rm -rf llvm-project build /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/local/bin/clang++ 1
