@@ -9,7 +9,6 @@ RUN apt-get update --quiet \
     cmake \
     doxygen \
     git \
-    libboost-dev \
     make \
     ninja-build \
     python3 \
