@@ -1,10 +1,10 @@
 FROM johnmcfarlane/cnl_ci:base-21.10
 RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes binutils clang-12 libz3-4 \
+  && apt-get install --no-install-recommends --quiet --yes binutils clang-13 libz3-4 \
   && git clone --branch=main --depth=1 https://github.com/llvm/llvm-project.git \
   && mkdir build \
   && cd build \
-  && CXX=/usr/bin/clang++-12 CC=/usr/bin/clang-12 cmake \
+  && CXX=/usr/bin/clang++-13 CC=/usr/bin/clang-13 cmake \
     -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi;libunwind" \
