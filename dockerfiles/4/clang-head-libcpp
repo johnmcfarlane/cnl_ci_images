@@ -11,7 +11,7 @@ RUN apt-get update --quiet \
     ../llvm-project/llvm \
   && ninja install \
   && cd .. \
-  && apt-get remove --yes clang-12 \
+  && apt-get purge --yes --autoremove clang-13 \
   && apt-get install --no-install-recommends --yes build-essential \
   && apt-get --quiet --yes autoremove \
   && rm -rf llvm-project build /var/lib/apt/lists/*
