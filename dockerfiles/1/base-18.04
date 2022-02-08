@@ -9,6 +9,7 @@ RUN apt-get update --quiet \
     cmake \
     doxygen \
     git \
+    less \
     make \
     ninja-build \
     python3 \
