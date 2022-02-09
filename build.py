@@ -9,7 +9,7 @@ from sys import argv
 def build(filename, path, tag):
     # Work in cycles of build/push, build/push, build/push.
     # That way, all the base images are uploaded ready to pull again for each compiler image.
-    check_call(["docker", "build", "-f", filename, "--squash=true", "--tag", tag, path])
+    check_call(["docker", "build", "-f", filename, "--tag", tag, path])
     check_call(["docker", "push", tag])
 
 

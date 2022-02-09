@@ -1,0 +1,110 @@
+---
+name: push
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build1:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/1/*
+
+  build2:
+    runs-on: ubuntu-20.04
+    needs: build1
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/2/*
+
+  build3:
+    runs-on: ubuntu-20.04
+    needs: build2
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/3/*
+
+  build4:
+    runs-on: ubuntu-20.04
+    needs: build3
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/4/*
+
+  build5:
+    runs-on: ubuntu-20.04
+    needs: build4
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/5/*
+
+  build6:
+    runs-on: ubuntu-20.04
+    needs: build5
+    steps:
+      - name: Clone cnl_ci_images
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build
+        run: |
+          $GITHUB_WORKSPACE/build.py $GITHUB_WORKSPACE/dockerfiles/6/*
+...
