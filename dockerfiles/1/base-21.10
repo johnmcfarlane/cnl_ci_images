@@ -10,6 +10,7 @@ RUN apt-get update --quiet \
     cmake \
     doxygen \
     git \
+    iwyu \
     lcov \
     less \
     make \
