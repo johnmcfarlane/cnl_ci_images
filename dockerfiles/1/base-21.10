@@ -6,8 +6,9 @@ RUN apt-get update --quiet \
   && apt-get install --no-install-recommends --quiet --yes \
     ccache \
     cloc \
-    cppcheck \
     cmake \
+    cppcheck \
+    curl \
     doxygen \
     git \
     iwyu \
@@ -16,14 +17,18 @@ RUN apt-get update --quiet \
     make \
     ninja-build \
     parallel \
+    pkg-config \
     python3 \
     python3-pip \
     shellcheck \
     software-properties-common \
+    tar \
     tree \
+    unzip \
     valgrind \
     wget \
     yamllint \
+    zip \
   && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --no-cache-dir --upgrade pip \
   && pip3 install --no-cache-dir conan pre-commit pyaml
