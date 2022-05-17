@@ -1,16 +1,18 @@
-FROM ubuntu:21.10
+FROM ubuntu:22.04
 
 # install system packages
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --quiet \
   && apt-get install --no-install-recommends --quiet --yes \
     ccache \
+    clang-tools \
     cloc \
     cmake \
     cppcheck \
     curl \
     doxygen \
     git \
+    graphviz \
     iwyu \
     lcov \
     less \

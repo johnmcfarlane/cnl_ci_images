@@ -1,4 +1,4 @@
-FROM johnmcfarlane/cnl_ci:base-21.10
+FROM johnmcfarlane/cnl_ci:base-22.04
 RUN apt-get update --quiet \
   && apt-get install --no-install-recommends --quiet --yes clang-13 clang-format-13 clang-tidy-13 \
   && rm -rf /var/lib/apt/lists/*

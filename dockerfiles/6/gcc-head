@@ -1,4 +1,4 @@
-FROM johnmcfarlane/cnl_ci:gcc-11
+FROM johnmcfarlane/cnl_ci:gcc-12
 
 RUN apt-get update --quiet \
   && apt-get install --no-install-recommends --quiet --yes binutils flex gcc-multilib gnulib libgmp-dev libmpc3 libmpc-dev libmpfr-dev \
@@ -8,7 +8,7 @@ RUN apt-get update --quiet \
   && /gcc/configure --disable-multilib --enable-languages=c,c++,lto \
   && make --jobs $(nproc) \
   && make install \
-  && apt-get remove --quiet --yes flex g++-7 g++-11 libgmp-dev libmpfr-dev libmpc-dev libstdc++-11-dev \
+  && apt-get remove --quiet --yes flex g++-7 g++-12 libgmp-dev libmpfr-dev libmpc-dev libstdc++-12-dev \
   && apt-get install --no-install-recommends --quiet --yes binutils gcc-multilib libmpc3 \
   && apt-get --quiet --yes autoremove \
   && rm -rf /gcc /build /var/lib/apt/lists/*
