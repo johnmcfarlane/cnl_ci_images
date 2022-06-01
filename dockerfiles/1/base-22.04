@@ -22,6 +22,7 @@ RUN apt-get update --quiet \
     pkg-config \
     python3 \
     python3-pip \
+    ruby-rubygems \
     shellcheck \
     software-properties-common \
     tar \
