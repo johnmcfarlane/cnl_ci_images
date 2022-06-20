@@ -2,15 +2,26 @@
 
 from multiprocessing import Pool
 from os.path import basename, dirname
-from subprocess import check_call
+from subprocess import CalledProcessError, check_output
 from sys import argv
+
+
+def run_subprocess(args):
+    print("running '{}'...".format(' '.join(args)))
+    try:
+        print(check_output(args).decode('utf-8'))
+        print("... '{}' succeeded".format(' '.join(args)))
+    except CalledProcessError as e:
+        print(e.output.decode('utf-8'))
+        print("... '{}' failed".format(' '.join(args)))
+        raise
 
 
 def build(filename, path, tag):
     # Work in cycles of build/push, build/push, build/push.
     # That way, all the base images are uploaded ready to pull again for each compiler image.
-    check_call(["docker", "build", "-f", filename, "--tag", tag, path])
-    check_call(["docker", "push", tag])
+    run_subprocess(["docker", "build", "-f", filename, "--tag", tag, path])
+    run_subprocess(["docker", "push", tag])
 
 
 def build_image(step):

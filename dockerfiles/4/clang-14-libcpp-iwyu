@@ -1,0 +1,11 @@
+FROM johnmcfarlane/cnl_ci:clang-14-libcpp
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --yes llvm-14-dev libclang-14-dev ssh \
+  && git clone https://github.com/include-what-you-use/include-what-you-use --branch=clang_14 --depth=1 \
+  && git clone https://github.com/llvm/llvm-project --branch=release/1.4.x --depth=1 \
+  && mkdir build && cd build \
+  && cmake -G "Ninja" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-14 ../include-what-you-use \
+  && cmake --build . --target install \
+  && update-alternatives --install /usr/bin/iwyu iwyu /usr/local/bin/include-what-you-use 1 \
+  && apt-get remove --yes llvm-14-dev ssh \
+  && cd .. && rm -rf build include-what-you-use /var/lib/apt/lists/*

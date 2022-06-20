@@ -13,7 +13,6 @@ RUN apt-get update --quiet \
     doxygen \
     git \
     graphviz \
-    iwyu \
     lcov \
     less \
     make \
