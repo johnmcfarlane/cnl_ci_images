@@ -1,0 +1,4 @@
+FROM johnmcfarlane/cnl_ci:clang-15
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --yes libc++abi-15-dev libc++-15-dev libunwind-15-dev \
+  && rm -rf /var/lib/apt/lists/*

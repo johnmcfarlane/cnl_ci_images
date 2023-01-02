@@ -1,17 +1,17 @@
-FROM johnmcfarlane/cnl_ci:base-22.04
+FROM johnmcfarlane/cnl_ci:base-22.10
 RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --quiet --yes binutils clang-14 libz3-4 \
+  && apt-get install --no-install-recommends --quiet --yes binutils clang-15 libz3-4 \
   && git clone --branch=main --depth=1 https://github.com/llvm/llvm-project.git \
   && mkdir build \
   && cd build \
-  && CXX=/usr/bin/clang++-14 CC=/usr/bin/clang-14 cmake \
+  && CXX=/usr/bin/clang++-15 CC=/usr/bin/clang-15 cmake \
     -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;libunwind" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt" \
     ../llvm-project/llvm \
   && ninja install \
   && cd .. \
-  && apt-get purge --yes --autoremove clang-14 \
+  && apt-get purge --yes --autoremove clang-15 \
   && apt-get install --no-install-recommends --yes build-essential \
   && apt-get --quiet --yes autoremove \
   && rm -rf llvm-project build /var/lib/apt/lists/*

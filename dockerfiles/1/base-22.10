@@ -1,0 +1,36 @@
+FROM ubuntu:22.10
+
+# install system packages
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --quiet \
+  && apt-get install --no-install-recommends --quiet --yes \
+    ccache \
+    clang-tools \
+    cloc \
+    cmake \
+    cppcheck \
+    curl \
+    doxygen \
+    git \
+    graphviz \
+    lcov \
+    less \
+    make \
+    ninja-build \
+    parallel \
+    pkg-config \
+    python3 \
+    python3-pip \
+    ruby-rubygems \
+    shellcheck \
+    software-properties-common \
+    tar \
+    tree \
+    unzip \
+    valgrind \
+    wget \
+    yamllint \
+    zip \
+  && rm -rf /var/lib/apt/lists/*
+RUN pip3 install --no-cache-dir --upgrade pip \
+  && pip3 install --no-cache-dir conan pre-commit pyaml
