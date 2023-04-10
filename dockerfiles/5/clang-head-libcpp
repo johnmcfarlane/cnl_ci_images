@@ -6,7 +6,7 @@ RUN apt-get update --quiet \
   && cmake \
     -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
+    -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
     ../llvm-project/llvm \
   && ninja install \
   && cd .. \
