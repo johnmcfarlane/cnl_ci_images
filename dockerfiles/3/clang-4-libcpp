@@ -1,4 +1,0 @@
-FROM johnmcfarlane/cnl_ci:clang-5
-RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes libc++-dev \
-  && rm -rf /var/lib/apt/lists/*

@@ -7,7 +7,7 @@ RUN apt-get update --quiet \
   && CXX=/usr/bin/clang++-14 CC=/usr/bin/clang-14 cmake \
     -GNinja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;libunwind" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt" \
     ../llvm-project/llvm \
   && ninja install \
   && cd .. \

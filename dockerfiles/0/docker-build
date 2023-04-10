@@ -1,6 +1,0 @@
-FROM ubuntu:18.04
-
-# install system packages
-RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --quiet --yes docker.io python3 \
-  && rm -rf /var/lib/apt/lists/*

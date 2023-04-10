@@ -1,4 +1,0 @@
-FROM johnmcfarlane/cnl_ci:clang-14
-RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes libc++abi-14-dev libc++-14-dev libunwind-14-dev \
-  && rm -rf /var/lib/apt/lists/*

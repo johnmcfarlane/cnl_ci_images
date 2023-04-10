@@ -1,4 +1,0 @@
-FROM johnmcfarlane/cnl_ci:clang-10
-RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes libstdc++-10-dev \
-  && rm -rf /var/lib/apt/lists/*

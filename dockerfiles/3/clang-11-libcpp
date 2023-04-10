@@ -1,4 +1,0 @@
-FROM johnmcfarlane/cnl_ci:clang-11
-RUN apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes libc++abi-11-dev libc++-11-dev \
-  && rm -rf /var/lib/apt/lists/*
