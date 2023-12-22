@@ -32,5 +32,5 @@ RUN apt-get update --quiet \
     yamllint \
     zip \
   && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --no-cache-dir --upgrade pip \
-  && pip3 install --no-cache-dir conan pre-commit pyaml
+RUN pip3 install --no-cache-dir --upgrade --upgrade-strategy=eager pip \
+  && pip3 install --no-cache-dir --upgrade --upgrade-strategy=eager "conan<2" pre-commit pyaml
